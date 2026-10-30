@@ -141,14 +141,13 @@
             const btn = document.getElementById('downloadBtn');
             const loading = document.getElementById('loadingText');
             
-            // ⚠️ ВСТАВЬТЕ СЮДА ССЫЛКУ, КОТОРУЮ СКОПИРОВАЛИ С GITHUB ⚠️
-            // Пример: const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta';
+            // ВАША ССЫЛКА С GITHUB
             const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta'; 
             
             btn.innerText = 'Загрузка...';
             loading.style.display = 'block';
 
-            // Создаем невидимую ссылку и кликаем по ней для мгновенного скачивания
+            // Мгновенное скачивание
             const a = document.createElement('a');
             a.href = downloadUrl;
             a.download = ''; 
@@ -156,7 +155,6 @@
             a.click();
             document.body.removeChild(a);
             
-            // Возвращаем кнопку обратно через 2 секунды
             setTimeout(() => {
                 btn.innerText = 'Скачать';
                 loading.style.display = 'none';
