@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Скачать Лаунчер</title>
     
-    <!-- Иконка сайта (из прошлого шага) -->
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoOLOPQJBHVMNQkrRjHHSQVuVcQk8LUt0nyNINWLY4ew&s=10">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     
@@ -100,9 +99,7 @@
             transition: all 0.3s ease;
         }
 
-        .tab-btn:hover {
-            color: var(--text-main);
-        }
+        .tab-btn:hover { color: var(--text-main); }
 
         .tab-btn.active {
             background-color: var(--accent-green);
@@ -126,14 +123,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         /* --- БЛОК "СКАЧАТЬ" --- */
-        .download-box {
-            text-align: center;
-        }
+        .download-box { text-align: center; }
 
         .download-box h1 {
             font-size: 28px;
@@ -179,25 +172,22 @@
         .about-box {
             position: relative;
             overflow: hidden;
-            padding: 0; /* Убираем padding, чтобы картинка была во весь край */
+            padding: 0;
         }
 
-        /* Картинка на заднем фоне блока */
         .about-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* ВАША КАРТИНКА ТУТ */
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUliLDSrpIpj7296eXyZVyw-U7_nR_k3wpleO1sl-wA&s=10');
             background-size: cover;
             background-position: center;
             z-index: 1;
         }
 
-        /* Затемнение картинки, чтобы текст читался */
         .about-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(13, 19, 23, 0.95) 0%, rgba(13, 19, 23, 0.7) 100%);
+            background: linear-gradient(135deg, rgba(13, 19, 23, 0.95) 0%, rgba(13, 19, 23, 0.75) 100%);
             z-index: 2;
         }
 
@@ -205,45 +195,68 @@
             position: relative;
             z-index: 3;
             padding: 40px;
-            max-height: 60vh; /* Чтобы блок не был слишком длинным, добавляем скролл */
+            max-height: 65vh; /* Скролл, чтобы блок не растягивался на весь экран */
             overflow-y: auto;
         }
 
-        /* Кастомный скроллбар для красоты */
         .about-content::-webkit-scrollbar { width: 8px; }
         .about-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px;}
         .about-content::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 4px;}
 
         .about-content h2 {
             font-size: 26px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: var(--accent-green);
         }
 
         .about-content h3 {
             font-size: 18px;
-            margin: 20px 0 10px 0;
+            margin: 25px 0 10px 0;
             color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Зеленая полоска слева от заголовков */
+        .about-content h3::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background-color: var(--accent-green);
+            border-radius: 2px;
         }
 
         .about-content p {
             font-size: 15px;
-            line-height: 1.6;
-            color: var(--text-muted);
+            line-height: 1.7;
+            color: #d1d5db;
             margin-bottom: 15px;
         }
 
         .about-content ul {
             margin-left: 20px;
-            margin-bottom: 15px;
-            color: var(--text-muted);
+            margin-bottom: 20px;
+            color: #d1d5db;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        .about-content li {
-            margin-bottom: 5px;
+        .about-content li { margin-bottom: 8px; }
+        
+        .highlight { color: var(--accent-green); font-weight: 600; }
+
+        /* Блок FAQ */
+        .faq-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
+        .faq-item strong { color: var(--text-main); display: block; margin-bottom: 5px;}
+        .faq-item span { font-size: 14px; color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -277,27 +290,37 @@
 
         <!-- РАЗДЕЛ 2: О ЛАУНЧЕРЕ -->
         <div id="about-section" class="content-section about-box hidden">
-            <!-- Задний фон с картинкой -->
             <div class="about-bg"></div>
-            <!-- Затемнение -->
             <div class="about-overlay"></div>
             
-            <!-- Текст -->
             <div class="about-content">
-                <h2>О проекте MultiTool Launcher</h2>
-                <p>Этот лаунчер был создан для удобного и быстрого запуска игры. Я разрабатывал его с нуля, чтобы обеспечить максимальную производительность и приятный интерфейс.</p>
+                <h2>Добро пожаловать в MultiTool Launcher</h2>
+                <p>Этот проект создавался с нуля как <span class="highlight">удобная и легкая альтернатива</span> громоздким лаунчерам. Моя главная цель — сделать запуск игры максимально быстрым, а интерфейс — понятным и приятным глазу.</p>
                 
-                <h3>Как я его делал:</h3>
+                <h3>Ключевые особенности</h3>
                 <ul>
-                    <li><b>Ядро лаунчера:</b> Написано на PowerShell и C#. Это позволяет ему работать напрямую с системой и быстро запускать необходимые процессы.</li>
-                    <li><b>Интерфейс:</b> Использовал современные веб-технологии (HTML/CSS), упакованные в формат HTA, чтобы придать ему вид настоящего приложения.</li>
-                    <li><b>Анимации:</b> Добавил плавные переходы и неоновую подсветку для стиля.</li>
+                    <li><b>Молниеносный запуск:</b> Благодаря оптимизированному ядру, лаунчер стартует быстрее, чем вы успеете заварить чай.</li>
+                    <li><b>Умная проверка файлов:</b> Лаунчер сам следит за целостностью игровых файлов и докачивает только то, что было повреждено или удалено.</li>
+                    <li><b>Стильный интерфейс:</b> Темная тема с неоновой подсветкой. Никакого визуального мусора, только нужные кнопки.</li>
+                    <li><b>Безопасность:</b> Ваши данные (ники, настройки) хранятся локально на компьютере в защищенном виде.</li>
                 </ul>
 
-                <h3>Особенности:</h3>
-                <p>Лаунчер автоматически проверяет обновления, позволяет выбирать версии игры и хранит настройки в удобном формате JSON. Никаких лишних программ — только то, что нужно для игры!</p>
-                
-                <p><i>(Вы можете отредактировать этот текст в HTML-коде, найдя блок &lt;div class="about-content"&gt;)</i></p>
+                <h3>Как это работает под капотом?</h3>
+                <p>Лаунчер написан на связке <span class="highlight">PowerShell и C#</span>. Это позволяет ему напрямую взаимодействовать с системой Windows, быстро скачивать файлы и распаковывать архивы. Для интерфейса я использовал современный HTML/CSS, упакованный в удобный HTA-формат, что делает его легким, но функциональным.</p>
+
+                <h3>Частые вопросы (FAQ)</h3>
+                <div class="faq-item">
+                    <strong>Windows пишет, что файл может быть опасен. Это нормально?</strong>
+                    <span>Да. Так как лаунчер не подписан платным сертификатом (это дорого для инди-проекта), браузеры и антивирусы могут перестраховываться. Нажмите "Подробнее" -> "Все равно скачать".</span>
+                </div>
+                <div class="faq-item">
+                    <strong>Куда скачивается игра?</strong>
+                    <span>По умолчанию файлы игры сохраняются в папку `game` рядом с самим лаунчером. Вы можете изменить это в настройках.</span>
+                </div>
+                <div class="faq-item">
+                    <strong>Лаунчер бесплатный?</strong>
+                    <span>Абсолютно. Проект создается для души и удобства игроков, никаких скрытых платежей здесь нет.</span>
+                </div>
             </div>
         </div>
 
@@ -305,16 +328,12 @@
 
     <!-- СКРИПТЫ -->
     <script>
-        // Функция переключения вкладок
         function switchTab(tabName) {
-            // Скрываем все разделы
             document.getElementById('download-section').classList.add('hidden');
             document.getElementById('about-section').classList.add('hidden');
             
-            // Убираем активный класс со всех кнопок
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-            // Показываем нужный раздел и делаем кнопку активной
             if (tabName === 'download') {
                 document.getElementById('download-section').classList.remove('hidden');
                 document.querySelectorAll('.tab-btn')[0].classList.add('active');
@@ -324,14 +343,12 @@
             }
         }
 
-        // Функция скачивания
         function startDownload(event) {
             event.preventDefault();
             
             const btn = document.getElementById('downloadBtn');
             const loading = document.getElementById('loadingText');
             
-            // Ссылка на ваш файл с GitHub
             const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta'; 
             
             btn.innerText = 'Загрузка...';
