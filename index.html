@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Скачать Лаунчер</title>
     
-    <!-- НОВАЯ СТРОКА: Иконка сайта (favicon) -->
+    <!-- Иконка сайта (из прошлого шага) -->
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoOLOPQJBHVMNQkrRjHHSQVuVcQk8LUt0nyNINWLY4ew&s=10">
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-color: #070a0e;
-            --card-bg: #131a20;
+            --card-bg: rgba(19, 26, 32, 0.85);
             --accent-green: #00ff66;
             --accent-green-hover: #00cc52;
             --text-main: #ffffff;
+            --text-muted: #a0aab5;
             --border-color: #1f2933;
         }
 
@@ -24,17 +25,17 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
             position: relative;
+            overflow-x: hidden;
         }
 
         /* --- АНИМИРОВАННЫЙ ФОН (СЕТКА И КУБИКИ) --- */
         .background-container {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0; overflow: hidden;
             background-image: 
@@ -63,19 +64,75 @@
             100% { transform: translateY(0) rotate(360deg); opacity: 0.2; }
         }
 
-        /* --- ЦЕНТРАЛЬНЫЙ БЛОК С КНОПКОЙ --- */
-        .download-box {
+        /* --- ОСНОВНОЙ КОНТЕЙНЕР --- */
+        .main-wrapper {
             position: relative;
             z-index: 10;
-            background-color: rgba(19, 26, 32, 0.85);
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* --- НАВИГАЦИЯ (ВКЛАДКИ) --- */
+        .nav-tabs {
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-green);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+        }
+
+        /* --- ОБЩИЕ СТИЛИ ДЛЯ БЛОКОВ --- */
+        .content-section {
+            background-color: var(--card-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 40px 50px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
+            padding: 40px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- БЛОК "СКАЧАТЬ" --- */
+        .download-box {
+            text-align: center;
         }
 
         .download-box h1 {
@@ -117,10 +174,81 @@
             font-size: 14px;
             color: var(--accent-green);
         }
+
+        /* --- БЛОК "О ЛАУНЧЕРЕ" --- */
+        .about-box {
+            position: relative;
+            overflow: hidden;
+            padding: 0; /* Убираем padding, чтобы картинка была во весь край */
+        }
+
+        /* Картинка на заднем фоне блока */
+        .about-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* ВАША КАРТИНКА ТУТ */
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUliLDSrpIpj7296eXyZVyw-U7_nR_k3wpleO1sl-wA&s=10');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        /* Затемнение картинки, чтобы текст читался */
+        .about-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(13, 19, 23, 0.95) 0%, rgba(13, 19, 23, 0.7) 100%);
+            z-index: 2;
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 3;
+            padding: 40px;
+            max-height: 60vh; /* Чтобы блок не был слишком длинным, добавляем скролл */
+            overflow-y: auto;
+        }
+
+        /* Кастомный скроллбар для красоты */
+        .about-content::-webkit-scrollbar { width: 8px; }
+        .about-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px;}
+        .about-content::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 4px;}
+
+        .about-content h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent-green);
+        }
+
+        .about-content h3 {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .about-content p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .about-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .about-content li {
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
 
+    <!-- АНИМИРОВАННЫЙ ФОН -->
     <div class="background-container">
         <div class="cube cube-1"></div>
         <div class="cube cube-2"></div>
@@ -129,16 +257,74 @@
         <div class="cube cube-5"></div>
     </div>
 
-    <div class="download-box">
-        <h1>Скачать Лаунчер</h1>
+    <!-- ОСНОВНОЙ БЛОК -->
+    <div class="main-wrapper">
         
-        <a href="#" onclick="startDownload(event)" class="download-btn" id="downloadBtn">
-            Скачать
-        </a>
-        <div class="loading-text" id="loadingText">Начинаем скачивание...</div>
+        <!-- ВКЛАДКИ -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('download')">Скачать</button>
+            <button class="tab-btn" onclick="switchTab('about')">О лаунчере</button>
+        </div>
+
+        <!-- РАЗДЕЛ 1: СКАЧАТЬ -->
+        <div id="download-section" class="content-section download-box">
+            <h1>Скачать Лаунчер</h1>
+            <a href="#" onclick="startDownload(event)" class="download-btn" id="downloadBtn">
+                Скачать
+            </a>
+            <div class="loading-text" id="loadingText">Начинаем скачивание...</div>
+        </div>
+
+        <!-- РАЗДЕЛ 2: О ЛАУНЧЕРЕ -->
+        <div id="about-section" class="content-section about-box hidden">
+            <!-- Задний фон с картинкой -->
+            <div class="about-bg"></div>
+            <!-- Затемнение -->
+            <div class="about-overlay"></div>
+            
+            <!-- Текст -->
+            <div class="about-content">
+                <h2>О проекте MultiTool Launcher</h2>
+                <p>Этот лаунчер был создан для удобного и быстрого запуска игры. Я разрабатывал его с нуля, чтобы обеспечить максимальную производительность и приятный интерфейс.</p>
+                
+                <h3>Как я его делал:</h3>
+                <ul>
+                    <li><b>Ядро лаунчера:</b> Написано на PowerShell и C#. Это позволяет ему работать напрямую с системой и быстро запускать необходимые процессы.</li>
+                    <li><b>Интерфейс:</b> Использовал современные веб-технологии (HTML/CSS), упакованные в формат HTA, чтобы придать ему вид настоящего приложения.</li>
+                    <li><b>Анимации:</b> Добавил плавные переходы и неоновую подсветку для стиля.</li>
+                </ul>
+
+                <h3>Особенности:</h3>
+                <p>Лаунчер автоматически проверяет обновления, позволяет выбирать версии игры и хранит настройки в удобном формате JSON. Никаких лишних программ — только то, что нужно для игры!</p>
+                
+                <p><i>(Вы можете отредактировать этот текст в HTML-коде, найдя блок &lt;div class="about-content"&gt;)</i></p>
+            </div>
+        </div>
+
     </div>
 
+    <!-- СКРИПТЫ -->
     <script>
+        // Функция переключения вкладок
+        function switchTab(tabName) {
+            // Скрываем все разделы
+            document.getElementById('download-section').classList.add('hidden');
+            document.getElementById('about-section').classList.add('hidden');
+            
+            // Убираем активный класс со всех кнопок
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Показываем нужный раздел и делаем кнопку активной
+            if (tabName === 'download') {
+                document.getElementById('download-section').classList.remove('hidden');
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            } else if (tabName === 'about') {
+                document.getElementById('about-section').classList.remove('hidden');
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            }
+        }
+
+        // Функция скачивания
         function startDownload(event) {
             event.preventDefault();
             
