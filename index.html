@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Скачать Лаунчер</title>
+    
+    <!-- НОВАЯ СТРОКА: Иконка сайта (favicon) -->
+    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoOLOPQJBHVMNQkrRjHHSQVuVcQk8LUt0nyNINWLY4ew&s=10">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -141,13 +145,12 @@
             const btn = document.getElementById('downloadBtn');
             const loading = document.getElementById('loadingText');
             
-            // ВАША ССЫЛКА С GITHUB
+            // Ссылка на ваш файл с GitHub
             const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta'; 
             
             btn.innerText = 'Загрузка...';
             loading.style.display = 'block';
 
-            // Мгновенное скачивание
             const a = document.createElement('a');
             a.href = downloadUrl;
             a.download = ''; 
