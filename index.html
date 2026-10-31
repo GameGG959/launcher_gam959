@@ -1,462 +1,145 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Скачать Лаунчер</title>
-    
-    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoOLOPQJBHVMNQkrRjHHSQVuVcQk8LUt0nyNINWLY4ew&s=10">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-color: #070a0e;
-            --card-bg: rgba(19, 26, 32, 0.85);
-            --accent-green: #00ff66;
-            --accent-green-hover: #00cc52;
-            --text-main: #ffffff;
-            --text-muted: #a0aab5;
-            --border-color: #1f2933;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* --- АНИМИРОВАННЫЙ ФОН (СЕТКА И КУБИКИ) --- */
-        .background-container {
-            position: fixed;
-            top: -50px; left: -50px; width: calc(100% + 100px); height: calc(100% + 100px); /* Чуть больше экрана для параллакса */
-            z-index: 0; overflow: hidden;
-            background-image: 
-                linear-gradient(to right, rgba(0, 255, 102, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transition: transform 0.1s ease-out; /* Плавность для параллакса */
-        }
-
-        .cube {
-            position: absolute;
-            border: 2px solid rgba(0, 255, 102, 0.4);
-            background: rgba(0, 255, 102, 0.05);
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
-            animation: float linear infinite;
-        }
-
-        .cube-1 { width: 80px; height: 80px; top: 15%; left: 20%; animation-duration: 15s; }
-        .cube-2 { width: 50px; height: 50px; top: 60%; left: 75%; animation-duration: 20s; animation-direction: reverse; }
-        .cube-3 { width: 120px; height: 120px; top: 70%; left: 10%; animation-duration: 25s; border-width: 1px; opacity: 0.5; }
-        .cube-4 { width: 40px; height: 40px; top: 30%; left: 85%; animation-duration: 12s; }
-        .cube-5 { width: 100px; height: 100px; top: 85%; left: 50%; animation-duration: 18s; animation-direction: reverse; }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-            50% { transform: translateY(-80px) rotate(180deg); opacity: 0.8; }
-            100% { transform: translateY(0) rotate(360deg); opacity: 0.2; }
-        }
-
-        /* Частицы при клике */
-        .particle {
-            position: fixed;
-            background: var(--accent-green);
-            border-radius: 2px;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 0 10px var(--accent-green);
-        }
-
-        /* --- ОСНОВНОЙ КОНТЕЙНЕР --- */
-        .main-wrapper {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 700px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* --- НАВИГАЦИЯ (ВКЛАДКИ) --- */
-        .nav-tabs {
-            display: flex;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 5px;
-            backdrop-filter: blur(10px);
-            width: fit-content;
-            margin: 0 auto;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 12px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn:hover { color: var(--text-main); }
-
-        .tab-btn.active {
-            background-color: var(--accent-green);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
-        }
-
-        /* --- ОБЩИЕ СТИЛИ ДЛЯ БЛОКОВ --- */
-        .content-section {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hidden { display: none !important; }
-
-        /* --- БЛОК "СКАЧАТЬ" --- */
-        .download-box { text-align: center; }
-
-        .download-box h1 {
-            font-size: 28px;
-            margin-bottom: 25px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .download-btn {
-            display: block;
-            width: 100%;
-            background-color: var(--accent-green);
-            color: #000;
-            text-align: center;
-            padding: 18px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 800;
-            text-decoration: none;
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
-            transition: all 0.2s ease;
-            position: relative; /* Для эффектов */
-            overflow: hidden;
-        }
-
-        .download-btn:hover {
-            background-color: var(--accent-green-hover);
-            box-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .download-btn:active { transform: translateY(1px); }
-        
-        .loading-text {
-            display: none;
-            margin-top: 15px;
-            font-size: 14px;
-            color: var(--accent-green);
-        }
-
-        /* Статус сервера */
-        .server-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background-color: var(--accent-green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 255, 102, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); }
-        }
-
-        /* --- БЛОК "О ЛАУНЧЕРЕ" --- */
-        .about-box {
-            position: relative;
-            overflow: hidden;
-            padding: 0;
-        }
-
-        .about-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUliLDSrpIpj7296eXyZVyw-U7_nR_k3wpleO1sl-wA&s=10');
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-        }
-
-        .about-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(13, 19, 23, 0.95) 0%, rgba(13, 19, 23, 0.75) 100%);
-            z-index: 2;
-        }
-
-        .about-content {
-            position: relative;
-            z-index: 3;
-            padding: 40px;
-            max-height: 65vh;
-            overflow-y: auto;
-        }
-
-        .about-content::-webkit-scrollbar { width: 8px; }
-        .about-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px;}
-        .about-content::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 4px;}
-
-        .about-content h2 {
-            font-size: 26px;
-            margin-bottom: 15px;
-            color: var(--accent-green);
-        }
-
-        .about-content h3 {
-            font-size: 18px;
-            margin: 25px 0 10px 0;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .about-content h3::before {
-            content: "";
-            display: inline-block;
-            width: 4px;
-            height: 18px;
-            background-color: var(--accent-green);
-            border-radius: 2px;
-        }
-
-        .about-content p {
-            font-size: 15px;
-            line-height: 1.7;
-            color: #d1d5db;
-            margin-bottom: 15px;
-        }
-
-        .about-content ul {
-            margin-left: 20px;
-            margin-bottom: 20px;
-            color: #d1d5db;
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-        .about-content li { margin-bottom: 8px; }
-        
-        .highlight { color: var(--accent-green); font-weight: 600; }
-
-        .faq-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        .faq-item strong { color: var(--text-main); display: block; margin-bottom: 5px;}
-        .faq-item span { font-size: 14px; color: var(--text-muted); }
-    </style>
-</head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Скачать Лаунчер</title>
+<link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoOLOPQJBHVMNQkrRjHHSQVuVcQk8LUt0nyNINWLY4ew&s=10">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg-color:#070a0e;--card-bg:rgba(19,26,32,.85);--accent-green:#00ff66;--accent-green-hover:#00cc52;--text-main:#fff;--text-muted:#a0aab5;--border-color:#1f2933}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif}
+body{background:var(--bg-color);color:var(--text-main);min-height:100vh;display:flex;justify-content:center;align-items:center;position:relative;overflow-x:hidden}
+.background-container{position:fixed;top:-50px;left:-50px;width:calc(100% + 100px);height:calc(100% + 100px);z-index:0;overflow:hidden;background-image:linear-gradient(to right,rgba(0,255,102,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,255,102,.05) 1px,transparent 1px);background-size:50px 50px;transition:transform .1s ease-out}
+.cube{position:absolute;border:2px solid rgba(0,255,102,.4);background:rgba(0,255,102,.05);box-shadow:0 0 15px rgba(0,255,102,.2);animation:float linear infinite}
+.cube-1{width:80px;height:80px;top:15%;left:20%;animation-duration:15s}.cube-2{width:50px;height:50px;top:60%;left:75%;animation-duration:20s;animation-direction:reverse}
+.cube-3{width:120px;height:120px;top:70%;left:10%;animation-duration:25s;border-width:1px;opacity:.5}.cube-4{width:40px;height:40px;top:30%;left:85%;animation-duration:12s}
+.cube-5{width:100px;height:100px;top:85%;left:50%;animation-duration:18s;animation-direction:reverse}
+@keyframes float{0%{transform:translateY(0) rotate(0);opacity:.2}50%{transform:translateY(-80px) rotate(180deg);opacity:.8}100%{transform:translateY(0) rotate(360deg);opacity:.2}}
+.particle{position:fixed;border-radius:2px;pointer-events:none;z-index:9999;box-shadow:0 0 10px var(--accent-green)}
+.main-wrapper{position:relative;z-index:10;width:100%;max-width:700px;padding:20px;display:flex;flex-direction:column;gap:20px}
+.nav-tabs{display:flex;background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:5px;backdrop-filter:blur(10px);width:fit-content;margin:0 auto}
+.tab-btn{background:transparent;border:none;color:var(--text-muted);padding:12px 26px;font-size:16px;font-weight:600;cursor:pointer;border-radius:8px;transition:all .3s}
+.tab-btn:hover{color:var(--text-main)}.tab-btn.active{background:var(--accent-green);color:#000;box-shadow:0 0 15px rgba(0,255,102,.3)}
+.content-section{background:var(--card-bg);backdrop-filter:blur(10px);border:1px solid var(--border-color);border-radius:16px;padding:40px;box-shadow:0 15px 50px rgba(0,0,0,.8);animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hidden{display:none!important}
+.download-box{text-align:center}.download-box h1{font-size:28px;margin-bottom:25px;font-weight:800;letter-spacing:1px}
+.download-btn{display:block;width:100%;background:var(--accent-green);color:#000;text-align:center;padding:18px;border-radius:8px;font-size:18px;font-weight:800;text-decoration:none;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 0 20px rgba(0,255,102,.3);transition:all .2s}
+.download-btn:hover{background:var(--accent-green-hover);box-shadow:0 0 30px rgba(0,255,102,.6);transform:translateY(-2px)}.download-btn:active{transform:translateY(1px)}
+.loading-text{display:none;margin-top:15px;font-size:14px;color:var(--accent-green)}
+.server-status{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:14px;color:var(--text-muted);font-weight:600}
+.status-dot{width:10px;height:10px;background:var(--accent-green);border-radius:50%;box-shadow:0 0 10px var(--accent-green);animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(0,255,102,.7)}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(0,255,102,0)}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(0,255,102,0)}}
+.about-box{position:relative;overflow:hidden;padding:0}
+.about-bg{position:absolute;inset:0;background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUliLDSrpIpj7296eXyZVyw-U7_nR_k3wpleO1sl-wA&s=10');background-size:cover;background-position:center;z-index:1}
+.about-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,19,23,.95),rgba(13,19,23,.75));z-index:2}
+.about-content{position:relative;z-index:3;padding:40px;max-height:65vh;overflow-y:auto}
+.about-content::-webkit-scrollbar{width:8px}.about-content::-webkit-scrollbar-track{background:rgba(0,0,0,.2);border-radius:4px}.about-content::-webkit-scrollbar-thumb{background:var(--accent-green);border-radius:4px}
+.about-content h2{font-size:26px;margin-bottom:15px;color:var(--accent-green)}
+.about-content h3{font-size:18px;margin:25px 0 10px;display:flex;align-items:center;gap:10px}
+.about-content h3::before{content:"";display:inline-block;width:4px;height:18px;background:var(--accent-green);border-radius:2px}
+.about-content p{font-size:15px;line-height:1.7;color:#d1d5db;margin-bottom:15px}
+.about-content ul{margin:0 0 20px 20px;color:#d1d5db;font-size:15px;line-height:1.7}.about-content li{margin-bottom:8px}
+.highlight{color:var(--accent-green);font-weight:600}
+.faq-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:15px;border-radius:8px;margin-bottom:10px}
+.faq-item strong{display:block;margin-bottom:5px}.faq-item span{font-size:14px;color:var(--text-muted)}
+/* аккаунт */
+.acc h1{font-size:26px;font-weight:800;margin-bottom:20px;text-align:center}
+.acc input,.acc select{width:100%;margin-bottom:12px;padding:14px;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,.35);color:#fff;font-size:15px;outline:none}
+.acc input:focus{border-color:var(--accent-green)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.btn{padding:14px;border-radius:8px;border:none;font-weight:800;font-size:15px;cursor:pointer;background:var(--accent-green);color:#000;transition:.2s;width:100%}
+.btn:hover{background:var(--accent-green-hover);transform:translateY(-1px)}.btn.alt{background:transparent;color:var(--accent-green);border:1px solid var(--accent-green)}
+.msg{margin-top:14px;font-size:14px;color:var(--text-muted);text-align:center;min-height:20px}.msg.err{color:#ff6b6b}.msg.ok{color:var(--accent-green)}
+.who{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.who canvas{width:72px;height:72px;border-radius:10px;border:2px solid var(--accent-green);image-rendering:pixelated;background:#0003}
+.who b{font-size:20px;display:block}.who span{font-size:13px;color:var(--text-muted)}
+.file{display:block;margin-bottom:12px;padding:14px;border:1px dashed var(--accent-green);border-radius:8px;text-align:center;cursor:pointer;color:var(--accent-green);font-weight:600}
+</style></head>
 <body>
+<div class="background-container" id="parallax-bg"><div class="cube cube-1"></div><div class="cube cube-2"></div><div class="cube cube-3"></div><div class="cube cube-4"></div><div class="cube cube-5"></div></div>
+<div class="main-wrapper">
+<div class="nav-tabs"><button class="tab-btn active" onclick="switchTab('download')">Скачать</button><button class="tab-btn" onclick="switchTab('account')">Аккаунт</button><button class="tab-btn" onclick="switchTab('about')">О лаунчере</button></div>
 
-    <!-- АНИМИРОВАННЫЙ ФОН -->
-    <div class="background-container" id="parallax-bg">
-        <div class="cube cube-1"></div>
-        <div class="cube cube-2"></div>
-        <div class="cube cube-3"></div>
-        <div class="cube cube-4"></div>
-        <div class="cube cube-5"></div>
-    </div>
+<div id="download-section" class="content-section download-box">
+<h1>Скачать Лаунчер</h1>
+<a href="#" onclick="startDownload(event)" class="download-btn" id="downloadBtn">Скачать</a>
+<div class="loading-text" id="loadingText">Начинаем скачивание...</div>
+<div class="server-status"><div class="status-dot"></div><span id="srvText">Сервер аккаунтов: проверяю…</span></div>
+</div>
 
-    <!-- ОСНОВНОЙ БЛОК -->
-    <div class="main-wrapper">
-        
-        <!-- ВКЛАДКИ -->
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('download')">Скачать</button>
-            <button class="tab-btn" onclick="switchTab('about')">О лаунчере</button>
-        </div>
+<div id="account-section" class="content-section acc hidden">
+<h1>Аккаунт и скин</h1>
+<div id="loginBox">
+<input id="lu" placeholder="Логин (латиница, 3–16)" maxlength="16" autocomplete="username">
+<input id="lp" type="password" placeholder="Пароль (от 6 символов)" autocomplete="current-password">
+<div class="row"><button class="btn" onclick="doLogin()">Войти</button><button class="btn alt" onclick="doRegister()">Регистрация</button></div>
+</div>
+<div id="userBox" class="hidden">
+<div class="who"><canvas id="head" width="8" height="8"></canvas><div><b id="uname"></b><span>Скин виден в игре, если войти в лаунчер этим же логином</span></div></div>
+<label class="file">Выбрать скин (PNG 64×64 или 64×32)<input type="file" id="skinFile" accept="image/png" hidden onchange="uploadSkin(this)"></label>
+<select id="skinModel"><option value="classic">Классическая модель (Steve)</option><option value="slim">Тонкие руки (Alex)</option></select>
+<button class="btn alt" onclick="doLogout()">Выйти</button>
+</div>
+<div class="msg" id="accMsg"></div>
+</div>
 
-        <!-- РАЗДЕЛ 1: СКАЧАТЬ -->
-        <div id="download-section" class="content-section download-box">
-            <h1>Скачать Лаунчер</h1>
-            <a href="#" onclick="startDownload(event)" class="download-btn" id="downloadBtn">
-                Скачать
-            </a>
-            <div class="loading-text" id="loadingText">Начинаем скачивание...</div>
-            
-            <!-- НОВОЕ: Статус сервера -->
-            <div class="server-status">
-                <div class="status-dot"></div>
-                Сервер обновлений: Онлайн
-            </div>
-        </div>
+<div id="about-section" class="content-section about-box hidden">
+<div class="about-bg"></div><div class="about-overlay"></div>
+<div class="about-content">
+<h2>Добро пожаловать в MultiTool Launcher</h2>
+<p>Этот проект создавался с нуля как <span class="highlight">удобная и лёгкая альтернатива</span> громоздким лаунчерам. Цель — быстрый запуск игры и понятный интерфейс.</p>
+<h3>Ключевые особенности</h3>
+<ul>
+<li><b>Vanilla, Fabric, Quilt, Forge, NeoForge:</b> любая версия в пару кликов, Java скачивается сама.</li>
+<li><b>Моды и сборки:</b> каталог Modrinth, отдельные сборки со своими модами, проверка конфликтов.</li>
+<li><b>Аккаунт и скины:</b> вход по логину и паролю, свой скин в игре.</li>
+<li><b>Облако:</b> настройки управления, миры и скриншоты синхронизируются между компьютерами.</li>
+<li><b>Мультиплеер:</b> свой сервер для друзей на вашем ПК.</li>
+<li><b>Умная докачка:</b> лаунчер докачивает только недостающие файлы.</li>
+</ul>
+<h3>Как это устроено</h3>
+<p>Лаунчер написан на <span class="highlight">PowerShell и HTML/CSS/JS</span>: ничего устанавливать дополнительно не нужно, всё работает на встроенных компонентах Windows 10/11.</p>
+<h3>Частые вопросы (FAQ)</h3>
+<div class="faq-item"><strong>Windows пишет, что файл может быть опасен. Это нормально?</strong><span>Да. Установщик не подписан платным сертификатом, поэтому браузер и SmartScreen перестраховываются. Нажмите «Подробнее» → «Выполнить в любом случае».</span></div>
+<div class="faq-item"><strong>Куда скачивается игра?</strong><span>В стандартную папку <b>%APPDATA%\.minecraft</b>. Сборки лежат в .minecraft\instances.</span></div>
+<div class="faq-item"><strong>Где хранятся мои данные?</strong><span>Настройки — локально на вашем компьютере. Токен входа в аккаунт хранится зашифрованным средствами Windows.</span></div>
+<div class="faq-item"><strong>Лаунчер бесплатный?</strong><span>Да, проект создаётся для удобства игроков.</span></div>
+</div></div>
+</div>
 
-        <!-- РАЗДЕЛ 2: О ЛАУНЧЕРЕ -->
-        <div id="about-section" class="content-section about-box hidden">
-            <div class="about-bg"></div>
-            <div class="about-overlay"></div>
-            
-            <div class="about-content">
-                <h2>Добро пожаловать в MultiTool Launcher</h2>
-                <p>Этот проект создавался с нуля как <span class="highlight">удобная и легкая альтернатива</span> громоздким лаунчерам. Моя главная цель — сделать запуск игры максимально быстрым, а интерфейс — понятным и приятным глазу.</p>
-                
-                <h3>Ключевые особенности</h3>
-                <ul>
-                    <li><b>Молниеносный запуск:</b> Благодаря оптимизированному ядру, лаунчер стартует быстрее, чем вы успеете заварить чай.</li>
-                    <li><b>Умная проверка файлов:</b> Лаунчер сам следит за целостностью игровых файлов и докачивает только то, что было повреждено или удалено.</li>
-                    <li><b>Стильный интерфейс:</b> Темная тема с неоновой подсветкой. Никакого визуального мусора, только нужные кнопки.</li>
-                    <li><b>Безопасность:</b> Ваши данные (ники, настройки) хранятся локально на компьютере в защищенном виде.</li>
-                </ul>
+<script>
+/* ===== НАСТРОЙКИ ===== */
+// ⚠️ ОБНОВЛЕНА ССЫЛКА НА НОВУЮ ВЕРСИЮ v1.1 ⚠️
+const DOWNLOAD_URL='https://github.com/GameGG959/installer/releases/download/v1.1/MultiTool-Setup.10.hta'; 
+const API='';  // адрес твоего сервера аккаунтов, например 'https://skins.example.com'
 
-                <h3>Как это работает под капотом?</h3>
-                <p>Лаунчер написан на связке <span class="highlight">PowerShell и C#</span>. Это позволяет ему напрямую взаимодействовать с системой Windows, быстро скачивать файлы и распаковывать архивы. Для интерфейса я использовал современный HTML/CSS, упакованный в удобный HTA-формат, что делает его легким, но функциональным.</p>
+function switchTab(t){['download','account','about'].forEach(n=>document.getElementById(n+'-section').classList.toggle('hidden',n!==t));
+ document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['download','account','about'][i]===t));if(t==='account')refresh()}
+function startDownload(e){e.preventDefault();const b=document.getElementById('downloadBtn'),l=document.getElementById('loadingText');particles(e.clientX,e.clientY);
+ b.innerText='Загрузка...';l.style.display='block';const a=document.createElement('a');a.href=DOWNLOAD_URL;a.download='';document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>{b.innerText='Скачать';l.style.display='none'},2000)}
+function particles(x,y){const c=['#00ff66','#00cc52','#fff'];for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';document.body.appendChild(p);const s=Math.random()*8+4;
+ Object.assign(p.style,{width:s+'px',height:s+'px',background:c[Math.floor(Math.random()*3)],left:x+'px',top:y+'px'});const a=Math.random()*6.28,v=Math.random()*150+50;
+ p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v}px) scale(0)`,opacity:0}],{duration:600+Math.random()*400,easing:'cubic-bezier(0,.9,.57,1)'}).onfinish=()=>p.remove()}}
+const bg=document.getElementById('parallax-bg');document.addEventListener('mousemove',e=>{bg.style.transform=`translate(${(innerWidth/2-e.pageX)/30}px,${(innerHeight/2-e.pageY)/30}px)`});
 
-                <h3>Частые вопросы (FAQ)</h3>
-                <div class="faq-item">
-                    <strong>Windows пишет, что файл может быть опасен. Это нормально?</strong>
-                    <span>Да. Так как лаунчер не подписан платным сертификатом (это дорого для инди-проекта), браузеры и антивирусы могут перестраховываться. Нажмите "Подробнее" -> "Все равно скачать".</span>
-                </div>
-                <div class="faq-item">
-                    <strong>Куда скачивается игра?</strong>
-                    <span>По умолчанию файлы игры сохраняются в папку `game` рядом с самим лаунчером. Вы можете изменить это в настройках.</span>
-                </div>
-                <div class="faq-item">
-                    <strong>Лаунчер бесплатный?</strong>
-                    <span>Абсолютно. Проект создается для души и удобства игроков, никаких скрытых платежей здесь нет.</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- СКРИПТЫ -->
-    <script>
-        // 1. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
-        function switchTab(tabName) {
-            document.getElementById('download-section').classList.add('hidden');
-            document.getElementById('about-section').classList.add('hidden');
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-
-            if (tabName === 'download') {
-                document.getElementById('download-section').classList.remove('hidden');
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
-            } else if (tabName === 'about') {
-                document.getElementById('about-section').classList.remove('hidden');
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            }
-        }
-
-        // 2. ФУНКЦИЯ СКАЧИВАНИЯ С ВЗРЫВОМ ЧАСТИЦ
-        function startDownload(event) {
-            event.preventDefault();
-            
-            const btn = document.getElementById('downloadBtn');
-            const loading = document.getElementById('loadingText');
-            
-            // Создаем частицы (взрыв)
-            createParticles(event.clientX, event.clientY);
-            
-            const downloadUrl = 'https://github.com/GameGG959/installer/releases/download/v1.0/MultiTool-Setup.hta'; 
-            
-            btn.innerText = 'Загрузка...';
-            loading.style.display = 'block';
-
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = ''; 
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            setTimeout(() => {
-                btn.innerText = 'Скачать';
-                loading.style.display = 'none';
-            }, 2000);
-        }
-
-        // Логика частиц
-        function createParticles(x, y) {
-            const colors = ['#00ff66', '#00cc52', '#ffffff'];
-            for (let i = 0; i < 20; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                document.body.appendChild(p);
-                
-                const size = Math.random() * 8 + 4;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
-                p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                p.style.left = x + 'px';
-                p.style.top = y + 'px';
-                
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 150 + 50; // Скорость разлета
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
-                
-                const animation = p.animate([
-                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 600 + Math.random() * 400,
-                    easing: 'cubic-bezier(0, .9, .57, 1)'
-                });
-                
-                animation.onfinish = () => p.remove();
-            }
-        }
-
-        // 3. ЭФФЕКТ ПАРАЛЛАКСА (ФОН ДВИГАЕТСЯ ЗА МЫШКОЙ)
-        const bg = document.getElementById('parallax-bg');
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 30; // Скорость движения
-            const y = (window.innerHeight / 2 - e.pageY) / 30;
-            
-            // Двигаем весь контейнер с сеткой и кубиками
-            bg.style.transform = `translate(${x}px, ${y}px)`;
-        });
-    </script>
-</body>
-</html>
+/* ===== АККАУНТ ===== */
+const $=id=>document.getElementById(id);
+const sv=()=>{try{return JSON.parse(localStorage.getItem('mt_acc')||'null')}catch(e){return null}};
+function msg(t,c){const m=$('accMsg');m.textContent=t;m.className='msg '+(c||'')}
+async function call(path,opt){if(!API)throw new Error('Не задан адрес сервера аккаунтов (переменная API в коде сайта)');
+ const r=await fetch(API+path,opt);let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.errorMessage||j.error||('Ошибка '+r.status));return j}
+async function doRegister(){try{msg('Регистрирую…');await call('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('lu').value,password:$('lp').value})});await doLogin()}catch(e){msg(e.message,'err')}}
+async function doLogin(){try{msg('Вхожу…');const j=await call('/authserver/authenticate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('lu').value,password:$('lp').value,clientToken:crypto.randomUUID().replace(/-/g,''),agent:{name:'Minecraft',version:1}})});
+ localStorage.setItem('mt_acc',JSON.stringify({token:j.accessToken,name:j.selectedProfile.name}));$('lp').value='';msg('Готово','ok');refresh()}catch(e){msg(e.message,'err')}}
+function doLogout(){localStorage.removeItem('mt_acc');refresh();msg('')}
+async function refresh(){const a=sv();$('loginBox').classList.toggle('hidden',!!a);$('userBox').classList.toggle('hidden',!a);if(!a)return;$('uname').textContent=a.name;
+ try{const me=await call('/api/me',{headers:{Authorization:'Bearer '+a.token}});drawHead(me.skin)}catch(e){if(/вход|401/i.test(e.message)){localStorage.removeItem('mt_acc');refresh()}else drawHead(null)}}
+function drawHead(url){const c=$('head'),g=c.getContext('2d');g.clearRect(0,0,8,8);g.fillStyle='#3a3a3a';g.fillRect(0,0,8,8);if(!url)return;const i=new Image();i.crossOrigin='anonymous';i.onload=()=>{g.imageSmoothingEnabled=false;g.drawImage(i,8,8,8,8,0,0,8,8);g.drawImage(i,40,8,8,8,0,0,8,8)};i.src=url+'?t='+Date.now()}
+function uploadSkin(inp){const f=inp.files[0],a=sv();if(!f||!a)return;const u=URL.createObjectURL(f),i=new Image();
+ i.onload=async()=>{if(!(i.width===64&&(i.height===64||i.height===32))){msg('Нужен PNG 64×64 или 64×32','err');return}
+  try{msg('Загружаю…');await call('/api/skin?model='+$('skinModel').value,{method:'PUT',headers:{Authorization:'Bearer '+a.token},body:f});msg('Скин загружен','ok');refresh()}catch(e){msg(e.message,'err')}};i.src=u;inp.value=''}
+(async()=>{const s=$('srvText');if(!API){s.textContent='Сервер аккаунтов: не настроен';return}try{await fetch(API+'/');s.textContent='Сервер аккаунтов: онлайн'}catch(e){s.textContent='Сервер аккаунтов: недоступен'}})();
+</script>
+</body></html>
