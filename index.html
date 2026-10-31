@@ -2,229 +2,144 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MultiTool Launcher</title>
-<link rel="icon" type="image/png" href="favicon.png"><script src="config.js"></script>
+<title>Скачать Лаунчер</title>
+<link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoOLOPQJBHVMNQkrRjHHSQVuVcQk8LUt0nyNINWLY4ew&s=10">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#070a0e;--card:rgba(19,26,32,.88);--g:#00ff66;--g2:#00cc52;--tx:#fff;--mut:#a0aab5;--bd:#1f2933}
+:root{--bg-color:#070a0e;--card-bg:rgba(19,26,32,.85);--accent-green:#00ff66;--accent-green-hover:#00cc52;--text-main:#fff;--text-muted:#a0aab5;--border-color:#1f2933}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif}
-body{background:var(--bg);color:var(--tx);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:28px 0;position:relative;overflow-x:hidden}
-.bgc{position:fixed;inset:-50px;z-index:0;overflow:hidden;background-image:linear-gradient(to right,rgba(0,255,102,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,255,102,.05) 1px,transparent 1px);background-size:50px 50px;transition:transform .1s ease-out}
+body{background:var(--bg-color);color:var(--text-main);min-height:100vh;display:flex;justify-content:center;align-items:center;position:relative;overflow-x:hidden}
+.background-container{position:fixed;top:-50px;left:-50px;width:calc(100% + 100px);height:calc(100% + 100px);z-index:0;overflow:hidden;background-image:linear-gradient(to right,rgba(0,255,102,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,255,102,.05) 1px,transparent 1px);background-size:50px 50px;transition:transform .1s ease-out}
 .cube{position:absolute;border:2px solid rgba(0,255,102,.4);background:rgba(0,255,102,.05);box-shadow:0 0 15px rgba(0,255,102,.2);animation:float linear infinite}
-.c1{width:80px;height:80px;top:15%;left:20%;animation-duration:15s}.c2{width:50px;height:50px;top:60%;left:75%;animation-duration:20s;animation-direction:reverse}.c3{width:120px;height:120px;top:70%;left:10%;animation-duration:25s;opacity:.5}.c4{width:40px;height:40px;top:30%;left:85%;animation-duration:12s}
+.cube-1{width:80px;height:80px;top:15%;left:20%;animation-duration:15s}.cube-2{width:50px;height:50px;top:60%;left:75%;animation-duration:20s;animation-direction:reverse}
+.cube-3{width:120px;height:120px;top:70%;left:10%;animation-duration:25s;border-width:1px;opacity:.5}.cube-4{width:40px;height:40px;top:30%;left:85%;animation-duration:12s}
+.cube-5{width:100px;height:100px;top:85%;left:50%;animation-duration:18s;animation-direction:reverse}
 @keyframes float{0%{transform:translateY(0) rotate(0);opacity:.2}50%{transform:translateY(-80px) rotate(180deg);opacity:.8}100%{transform:translateY(0) rotate(360deg);opacity:.2}}
-.particle{position:fixed;border-radius:2px;pointer-events:none;z-index:9999;box-shadow:0 0 10px var(--g)}
-.wrap{position:relative;z-index:10;width:100%;max-width:860px;padding:0 18px;display:flex;flex-direction:column;gap:18px}
-.top{display:flex;align-items:center;justify-content:center;gap:14px}
-.top img{width:52px;height:52px;border-radius:12px;box-shadow:0 0 24px rgba(0,255,102,.35)}.top b{font-size:22px;font-weight:800;letter-spacing:1px}
-.nav{display:flex;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:5px;backdrop-filter:blur(10px);width:fit-content;margin:0 auto;flex-wrap:wrap;justify-content:center}
-.tb{background:transparent;border:none;color:var(--mut);padding:11px 22px;font-size:15px;font-weight:600;cursor:pointer;border-radius:8px;transition:all .3s}
-.tb:hover{color:var(--tx)}.tb.on{background:var(--g);color:#000;box-shadow:0 0 15px rgba(0,255,102,.3)}
-.sec{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:16px;padding:34px;box-shadow:0 15px 50px rgba(0,0,0,.8);animation:fi .4s ease}
-@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.hid{display:none!important}
-h1{font-size:26px;font-weight:800;margin-bottom:18px;text-align:center}
-.dl{display:block;width:100%;background:var(--g);color:#000;text-align:center;padding:18px;border-radius:8px;font-size:18px;font-weight:800;text-decoration:none;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 0 20px rgba(0,255,102,.3);transition:all .2s}
-.dl:hover{background:var(--g2);box-shadow:0 0 30px rgba(0,255,102,.6);transform:translateY(-2px)}
-.stats{display:flex;justify-content:center;gap:26px;margin-top:22px;flex-wrap:wrap}.stat{text-align:center}.stat b{display:block;font-size:24px;color:var(--g)}.stat span{font-size:12px;color:var(--mut)}
-.srv{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:14px;color:var(--mut);font-weight:600}
-.dot{width:10px;height:10px;background:#888;border-radius:50%}.dot.ok{background:var(--g);box-shadow:0 0 10px var(--g)}
-.steps{margin:22px 0 0;padding:0;list-style:none;counter-reset:s;color:#cfd6dd;font-size:14px;line-height:1.6}.steps li{counter-increment:s;margin-bottom:8px;padding-left:34px;position:relative}
-.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:6px;background:rgba(0,255,102,.15);color:var(--g);font-weight:800;text-align:center;line-height:24px;font-size:13px}
-input,select{width:100%;margin-bottom:12px;padding:14px;border-radius:8px;border:1px solid var(--bd);background:rgba(0,0,0,.35);color:#fff;font-size:15px;outline:none}input:focus{border-color:var(--g)}
+.particle{position:fixed;border-radius:2px;pointer-events:none;z-index:9999;box-shadow:0 0 10px var(--accent-green)}
+.main-wrapper{position:relative;z-index:10;width:100%;max-width:700px;padding:20px;display:flex;flex-direction:column;gap:20px}
+.nav-tabs{display:flex;background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:5px;backdrop-filter:blur(10px);width:fit-content;margin:0 auto}
+.tab-btn{background:transparent;border:none;color:var(--text-muted);padding:12px 26px;font-size:16px;font-weight:600;cursor:pointer;border-radius:8px;transition:all .3s}
+.tab-btn:hover{color:var(--text-main)}.tab-btn.active{background:var(--accent-green);color:#000;box-shadow:0 0 15px rgba(0,255,102,.3)}
+.content-section{background:var(--card-bg);backdrop-filter:blur(10px);border:1px solid var(--border-color);border-radius:16px;padding:40px;box-shadow:0 15px 50px rgba(0,0,0,.8);animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hidden{display:none!important}
+.download-box{text-align:center}.download-box h1{font-size:28px;margin-bottom:25px;font-weight:800;letter-spacing:1px}
+.download-btn{display:block;width:100%;background:var(--accent-green);color:#000;text-align:center;padding:18px;border-radius:8px;font-size:18px;font-weight:800;text-decoration:none;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 0 20px rgba(0,255,102,.3);transition:all .2s}
+.download-btn:hover{background:var(--accent-green-hover);box-shadow:0 0 30px rgba(0,255,102,.6);transform:translateY(-2px)}.download-btn:active{transform:translateY(1px)}
+.loading-text{display:none;margin-top:15px;font-size:14px;color:var(--accent-green)}
+.server-status{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:14px;color:var(--text-muted);font-weight:600}
+.status-dot{width:10px;height:10px;background:var(--accent-green);border-radius:50%;box-shadow:0 0 10px var(--accent-green);animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(0,255,102,.7)}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(0,255,102,0)}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(0,255,102,0)}}
+.about-box{position:relative;overflow:hidden;padding:0}
+.about-bg{position:absolute;inset:0;background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUliLDSrpIpj7296eXyZVyw-U7_nR_k3wpleO1sl-wA&s=10');background-size:cover;background-position:center;z-index:1}
+.about-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,19,23,.95),rgba(13,19,23,.75));z-index:2}
+.about-content{position:relative;z-index:3;padding:40px;max-height:65vh;overflow-y:auto}
+.about-content::-webkit-scrollbar{width:8px}.about-content::-webkit-scrollbar-track{background:rgba(0,0,0,.2);border-radius:4px}.about-content::-webkit-scrollbar-thumb{background:var(--accent-green);border-radius:4px}
+.about-content h2{font-size:26px;margin-bottom:15px;color:var(--accent-green)}
+.about-content h3{font-size:18px;margin:25px 0 10px;display:flex;align-items:center;gap:10px}
+.about-content h3::before{content:"";display:inline-block;width:4px;height:18px;background:var(--accent-green);border-radius:2px}
+.about-content p{font-size:15px;line-height:1.7;color:#d1d5db;margin-bottom:15px}
+.about-content ul{margin:0 0 20px 20px;color:#d1d5db;font-size:15px;line-height:1.7}.about-content li{margin-bottom:8px}
+.highlight{color:var(--accent-green);font-weight:600}
+.faq-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:15px;border-radius:8px;margin-bottom:10px}
+.faq-item strong{display:block;margin-bottom:5px}.faq-item span{font-size:14px;color:var(--text-muted)}
+/* аккаунт */
+.acc h1{font-size:26px;font-weight:800;margin-bottom:20px;text-align:center}
+.acc input,.acc select{width:100%;margin-bottom:12px;padding:14px;border-radius:8px;border:1px solid var(--border-color);background:rgba(0,0,0,.35);color:#fff;font-size:15px;outline:none}
+.acc input:focus{border-color:var(--accent-green)}
 .row{display:flex;gap:10px}.row>*{flex:1}
-.btn{padding:14px;border-radius:8px;border:none;font-weight:800;font-size:15px;cursor:pointer;background:var(--g);color:#000;transition:.2s;width:100%}
-.btn:hover{background:var(--g2);transform:translateY(-1px)}.btn.alt{background:transparent;color:var(--g);border:1px solid var(--g)}.btn:disabled{opacity:.4;cursor:not-allowed}
-.msg{margin-top:14px;font-size:14px;color:var(--mut);text-align:center;min-height:20px}.msg.err{color:#ff6b6b}.msg.ok{color:var(--g)}
-.file{display:block;margin-bottom:12px;padding:14px;border:1px dashed var(--g);border-radius:8px;text-align:center;cursor:pointer;color:var(--g);font-weight:600}
-.who{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:center}@media(max-width:620px){.who{grid-template-columns:1fr}}
-.stage{height:290px;perspective:900px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 60%,rgba(0,255,102,.18),transparent 65%);border-radius:14px;border:1px solid var(--bd);cursor:grab;touch-action:none}
-.stage:active{cursor:grabbing}.rig{position:relative;width:0;height:0;transform-style:preserve-3d}
-.part{position:absolute;left:0;top:0;transform-style:preserve-3d}.face{position:absolute;backface-visibility:hidden;image-rendering:pixelated}
-.nm{font-size:22px;font-weight:800}.hint{font-size:13px;color:var(--mut);margin:6px 0 16px;line-height:1.5}
-.lb{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--bd);border-radius:10px;background:rgba(255,255,255,.04);margin-bottom:10px}
-.lb .code{font:800 16px Consolas,monospace;letter-spacing:2px;color:var(--g);background:rgba(0,255,102,.1);padding:6px 10px;border-radius:6px;cursor:pointer}
-.lb .inf{flex:1;min-width:0}.lb .inf b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lb .inf small{color:var(--mut)}
-.pill{font-size:12px;font-weight:700;padding:4px 9px;border-radius:20px;background:rgba(255,255,255,.08);color:#cfd6dd;white-space:nowrap}.pill.g{background:rgba(0,255,102,.15);color:var(--g)}
-.empty{text-align:center;color:var(--mut);padding:26px 0;font-size:14px}
-.about{max-height:68vh;overflow-y:auto}.about::-webkit-scrollbar{width:8px}.about::-webkit-scrollbar-thumb{background:var(--g);border-radius:4px}
-.about h2{font-size:24px;margin-bottom:14px;color:var(--g)}.about h3{font-size:17px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}.about h3:before{content:"";width:4px;height:18px;background:var(--g);border-radius:2px}
-.about p,.about li{font-size:15px;line-height:1.7;color:#d1d5db}.about p{margin-bottom:14px}.about ul{margin:0 0 18px 20px}.about li{margin-bottom:7px}.hl{color:var(--g);font-weight:600}
-.faq{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:14px;border-radius:8px;margin-bottom:10px}.faq strong{display:block;margin-bottom:5px}.faq span{font-size:14px;color:var(--mut)}
-.warnb{background:rgba(255,170,0,.12);border:1px solid rgba(255,170,0,.5);color:#ffd27a;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.5}.warnb b{color:#fff}.warnb code{background:rgba(0,0,0,.4);padding:1px 6px;border-radius:4px;color:var(--g)}
-.chip{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:30px;padding:5px 14px 5px 5px;cursor:pointer;font-size:13px;font-weight:600}.chip img{width:30px;height:30px;border-radius:50%;object-fit:cover}.top{position:relative}
-.pf{display:grid;grid-template-columns:190px 1fr;gap:26px}@media(max-width:640px){.pf{grid-template-columns:1fr}}
-.pfs{display:flex;flex-direction:column;gap:8px;align-items:stretch;border-right:1px solid var(--bd);padding-right:22px}@media(max-width:640px){.pfs{border:none;padding:0}}
-.av{position:relative;width:104px;height:104px;border-radius:50%;margin:0 auto 6px;border:3px solid var(--g);box-shadow:0 0 22px rgba(0,255,102,.35);overflow:hidden;background:#0a0f13}.av img{width:100%;height:100%;object-fit:cover;display:block}
-.avedit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;opacity:0;transition:.2s;cursor:pointer}.av:hover .avedit{opacity:1}
-.pfs .nm{text-align:center;margin-bottom:4px}.pfb{background:transparent;border:1px solid transparent;color:var(--mut);text-align:left;padding:11px 14px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s}.pfb:hover{color:#fff;background:rgba(255,255,255,.05)}.pfb.on{background:rgba(0,255,102,.12);color:var(--g);border-color:rgba(0,255,102,.35)}
-.pfm h2{font-size:18px;margin-bottom:12px}.box{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:14px;line-height:1.6;color:#cfd6dd}.box code{background:rgba(0,0,0,.45);padding:2px 7px;border-radius:5px;color:var(--g);font-family:Consolas,monospace}
-.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}@media(max-width:640px){.how{grid-template-columns:1fr}}.how div{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:10px;padding:12px;font-size:13px;color:#cfd6dd;line-height:1.5}.how b{display:block;color:var(--g);margin-bottom:4px}
-.pres{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}@media(max-width:640px){.pres{grid-template-columns:repeat(4,1fr)}}
-.pres canvas{width:100%;aspect-ratio:1;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.2s;image-rendering:auto;display:block}.pres canvas:hover{transform:scale(1.1);border-color:var(--g)}
-.av img,.chip img{image-rendering:auto}
-.jn{margin-left:8px;background:var(--g);color:#000;font-weight:800;font-size:12px;padding:7px 15px;border-radius:20px;text-decoration:none;white-space:nowrap;transition:.2s}.jn:hover{background:var(--g2);transform:translateY(-1px)}
-.lnk{color:var(--g);font-weight:700}
-.big{display:block;text-align:center;text-decoration:none;margin:6px 0 14px}
+.btn{padding:14px;border-radius:8px;border:none;font-weight:800;font-size:15px;cursor:pointer;background:var(--accent-green);color:#000;transition:.2s;width:100%}
+.btn:hover{background:var(--accent-green-hover);transform:translateY(-1px)}.btn.alt{background:transparent;color:var(--accent-green);border:1px solid var(--accent-green)}
+.msg{margin-top:14px;font-size:14px;color:var(--text-muted);text-align:center;min-height:20px}.msg.err{color:#ff6b6b}.msg.ok{color:var(--accent-green)}
+.who{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.who canvas{width:72px;height:72px;border-radius:10px;border:2px solid var(--accent-green);image-rendering:pixelated;background:#0003}
+.who b{font-size:20px;display:block}.who span{font-size:13px;color:var(--text-muted)}
+.file{display:block;margin-bottom:12px;padding:14px;border:1px dashed var(--accent-green);border-radius:8px;text-align:center;cursor:pointer;color:var(--accent-green);font-weight:600}
 </style></head>
 <body>
-<div class="bgc" id="bgc"><div class="cube c1"></div><div class="cube c2"></div><div class="cube c3"></div><div class="cube c4"></div></div>
-<div class="wrap">
-<div class="warnb hid" id="fileWarn"><b>Страница открыта как файл — сервер не подключён.</b> Запусти <code>ЗАПУСТИТЬ-САЙТ.bat</code> и открой <code>http://127.0.0.1:8080</code> в браузере. Либо впиши адрес сервера в <code>config.js</code> (скрипт <code>НАСТРОИТЬ.bat</code> делает это сам).</div>
-<div class="top"><img src="icon.png" alt=""><b>MULTITOOL LAUNCHER</b><div class="chip hid" id="chip"><img id="chipImg" alt=""><span id="chipName"></span></div></div>
-<div class="nav"><button class="tb on" data-t="download">Скачать</button><button class="tb" data-t="lobby">Лобби</button><button class="tb" data-t="account">Аккаунт</button><button class="tb" data-t="about">О лаунчере</button></div>
+<div class="background-container" id="parallax-bg"><div class="cube cube-1"></div><div class="cube cube-2"></div><div class="cube cube-3"></div><div class="cube cube-4"></div><div class="cube cube-5"></div></div>
+<div class="main-wrapper">
+<div class="nav-tabs"><button class="tab-btn active" onclick="switchTab('download')">Скачать</button><button class="tab-btn" onclick="switchTab('account')">Аккаунт</button><button class="tab-btn" onclick="switchTab('about')">О лаунчере</button></div>
 
-<div id="s-download" class="sec">
-<h1>Скачать лаунчер</h1>
-<a href="#" class="dl" id="dlBtn">Скачать для Windows</a>
-<ol class="steps"><li>Скачай и запусти установщик, выбери папку для лаунчера.</li><li>Во вкладке <b>ПРОФИЛИ</b> войди в аккаунт этого сайта — скин будет виден в игре.</li><li>Во вкладке <b>МУЛЬТИПЛЕЕР</b> создай лобби или войди по коду друга.</li></ol>
-<div class="stats"><div class="stat"><b id="stU">–</b><span>игроков</span></div><div class="stat"><b id="stL">–</b><span>лобби</span></div><div class="stat"><b id="stP">–</b><span>играют сейчас</span></div></div>
-<div class="srv"><div class="dot" id="sdot"></div><span id="srvText">Сервер: проверяю…</span></div>
+<div id="download-section" class="content-section download-box">
+<h1>Скачать Лаунчер</h1>
+<a href="#" onclick="startDownload(event)" class="download-btn" id="downloadBtn">Скачать</a>
+<div class="loading-text" id="loadingText">Начинаем скачивание...</div>
+<div class="server-status"><div class="status-dot"></div><span id="srvText">Сервер аккаунтов: проверяю…</span></div>
 </div>
 
-<div id="s-lobby" class="sec hid">
-<h1>Открытые лобби</h1>
-<div class="how"><div><b>1. Аккаунт</b>Регистрируешься здесь (вкладка «Аккаунт»). Те же логин и пароль вводишь в лаунчере — вкладка ПРОФИЛИ.</div><div><b>2. Хост</b>Кто создаёт лобби — жмёт кнопку ниже: откроется лаунчер, на его ПК запустится сервер Minecraft, а код появится в списке.</div><div><b>3. Друзья</b>Жмут «Войти» у нужного лобби — откроется их лаунчер с готовым кодом. Остаётся нажать «Войти по коду».</div></div>
-<p class="hint" style="text-align:center">Сайт — это «доска объявлений»: сама игра идёт между компьютерами игроков, поэтому хост должен держать лаунчер открытым.</p>
-<a class="btn big" href="multitool://host">Создать лобби в лаунчере</a>
-<div id="lobbies"><div class="empty">Загрузка…</div></div>
-<p class="hint" style="text-align:center">Кнопка «Войти» открывает установленный лаунчер. Лаунчера ещё нет? Вкладка «Скачать». Список обновляется сам.</p>
-</div>
-
-<div id="s-account" class="sec hid">
+<div id="account-section" class="content-section acc hidden">
+<h1>Аккаунт и скин</h1>
 <div id="loginBox">
-<h1>Вход и регистрация</h1>
 <input id="lu" placeholder="Логин (латиница, 3–16)" maxlength="16" autocomplete="username">
 <input id="lp" type="password" placeholder="Пароль (от 6 символов)" autocomplete="current-password">
-<div class="row"><button class="btn" id="bLogin">Войти</button><button class="btn alt" id="bReg">Регистрация</button></div>
-<p class="hint" style="text-align:center;margin-top:14px">Этот же логин и пароль потом вводишь в лаунчере — вкладка <b>ПРОФИЛИ</b>. Так сайт и лаунчер связаны: скин и лобби работают по одному аккаунту.</p>
+<div class="row"><button class="btn" onclick="doLogin()">Войти</button><button class="btn alt" onclick="doRegister()">Регистрация</button></div>
 </div>
-<div id="userBox" class="hid pf">
-<div class="pfs">
-<div class="av"><img id="avImg" alt=""><label class="avedit">Сменить<input type="file" id="avFile" accept="image/png,image/jpeg,image/webp" hidden></label></div>
-<div class="nm" id="uname" style="text-align:center"></div>
-<button class="pfb on" data-p="skin">Скин</button><button class="pfb" data-p="prof">Профиль и лаунчер</button><button class="pfb" data-p="pw">Пароль</button><button class="pfb" id="bOut">Выйти</button>
-</div>
-<div class="pfm">
-<div id="p-skin"><h2>Скин</h2><div class="who"><div class="stage" id="stage"><div class="rig" id="rig"></div></div>
-<div><div class="hint" id="uhint">Крути модель мышкой. Скин виден в игре, если войти в лаунчере этим же логином.</div>
-<label class="file">Выбрать скин (PNG 64×64 / 64×32)<input type="file" id="skinFile" accept="image/png" hidden></label>
+<div id="userBox" class="hidden">
+<div class="who"><canvas id="head" width="8" height="8"></canvas><div><b id="uname"></b><span>Скин виден в игре, если войти в лаунчер этим же логином</span></div></div>
+<label class="file">Выбрать скин (PNG 64×64 или 64×32)<input type="file" id="skinFile" accept="image/png" hidden onchange="uploadSkin(this)"></label>
 <select id="skinModel"><option value="classic">Классическая модель (Steve)</option><option value="slim">Тонкие руки (Alex)</option></select>
-<div class="row"><button class="btn" id="bApply" disabled>Применить скин</button><button class="btn alt" id="bDel">Убрать</button></div></div></div></div>
-<div id="p-prof" class="hid"><h2>Профиль</h2>
-<div class="box"><b>Аватарка.</b> Выбери готовую или загрузи свою картинку (PNG, JPG, WebP до 256 КБ).<div class="pres" id="presets"></div><div class="row" style="margin-top:12px"><label class="btn alt" for="avFile" style="text-align:center;cursor:pointer">Загрузить свою</label><button class="btn alt" id="avDel">Сбросить на стандартную</button></div></div>
-<div class="box"><b>Подключить лаунчер</b><br>Адрес сайта: <code id="apiUrl"></code><br>Логин: <code id="apiUser"></code> · пароль — тот, что ты задал при регистрации.<br>В лаунчере: вкладка <b>ПРОФИЛИ</b> → логин и пароль → «Войти». Скин и аватарка подтянутся сами, а во вкладке <b>МУЛЬТИПЛЕЕР</b> откроются лобби.<br><a class="lnk" href="multitool://open">Открыть лаунчер</a></div>
-<div class="box" id="myLobby">Моё лобби: нет активного. <a class="lnk" href="multitool://host">Создать в лаунчере</a> — сервер запустится на твоём ПК.</div></div>
-<div id="p-pw" class="hid"><h2>Смена пароля</h2><input id="pwOld" type="password" placeholder="Старый пароль" autocomplete="current-password"><input id="pwNew" type="password" placeholder="Новый пароль (от 6 символов)" autocomplete="new-password"><button class="btn" id="bPw">Сменить пароль</button></div>
-</div></div>
+<button class="btn alt" onclick="doLogout()">Выйти</button>
+</div>
 <div class="msg" id="accMsg"></div>
 </div>
 
-<div id="s-about" class="sec hid"><div class="about">
-<h2>MultiTool Launcher</h2>
-<p>Лёгкий лаунчер Minecraft, сделанный с нуля: быстрый запуск и понятный интерфейс <span class="hl">без лишнего мусора</span>.</p>
-<h3>Что умеет</h3>
-<ul><li><b>Vanilla, Fabric, Quilt, Forge, NeoForge</b> — любая версия в пару кликов, Java скачивается сама.</li>
-<li><b>Моды и сборки</b> — каталог Modrinth, отдельные сборки, проверка конфликтов.</li>
-<li><b>Аккаунт и скины</b> — свой скин с этого сайта, виден всем в лобби.</li>
-<li><b>Лобби</b> — создай комнату одной кнопкой, друзья заходят по коду. Ничего настраивать не надо.</li>
-<li><b>Облако</b> — настройки, миры и скриншоты между компьютерами.</li></ul>
-<h3>Частые вопросы</h3>
-<div class="faq"><strong>Windows пишет, что файл может быть опасен.</strong><span>Установщик не подписан платным сертификатом. Нажми «Подробнее» → «Выполнить в любом случае».</span></div>
-<div class="faq"><strong>Как работает лобби?</strong><span>Твой ПК запускает сервер, лаунчер сам открывает к нему доступ из интернета и публикует комнату на сайте. Друзья заходят по коду. Пока ты в лобби — компьютер должен быть включён.</span></div>
-<div class="faq"><strong>Почему в лобби не видно скин?</strong><span>Скины работают в лобби «по аккаунтам сайта». Если хост выбрал «по нику» — у всех стандартные скины.</span></div>
-<div class="faq"><strong>Лаунчер бесплатный?</strong><span>Да.</span></div>
+<div id="about-section" class="content-section about-box hidden">
+<div class="about-bg"></div><div class="about-overlay"></div>
+<div class="about-content">
+<h2>Добро пожаловать в MultiTool Launcher</h2>
+<p>Этот проект создавался с нуля как <span class="highlight">удобная и лёгкая альтернатива</span> громоздким лаунчерам. Цель — быстрый запуск игры и понятный интерфейс.</p>
+<h3>Ключевые особенности</h3>
+<ul>
+<li><b>Vanilla, Fabric, Quilt, Forge, NeoForge:</b> любая версия в пару кликов, Java скачивается сама.</li>
+<li><b>Моды и сборки:</b> каталог Modrinth, отдельные сборки со своими модами, проверка конфликтов.</li>
+<li><b>Аккаунт и скины:</b> вход по логину и паролю, свой скин в игре.</li>
+<li><b>Облако:</b> настройки управления, миры и скриншоты синхронизируются между компьютерами.</li>
+<li><b>Мультиплеер:</b> свой сервер для друзей на вашем ПК.</li>
+<li><b>Умная докачка:</b> лаунчер докачивает только недостающие файлы.</li>
+</ul>
+<h3>Как это устроено</h3>
+<p>Лаунчер написан на <span class="highlight">PowerShell и HTML/CSS/JS</span>: ничего устанавливать дополнительно не нужно, всё работает на встроенных компонентах Windows 10/11.</p>
+<h3>Частые вопросы (FAQ)</h3>
+<div class="faq-item"><strong>Windows пишет, что файл может быть опасен. Это нормально?</strong><span>Да. Установщик не подписан платным сертификатом, поэтому браузер и SmartScreen перестраховываются. Нажмите «Подробнее» → «Выполнить в любом случае».</span></div>
+<div class="faq-item"><strong>Куда скачивается игра?</strong><span>В стандартную папку <b>%APPDATA%\.minecraft</b>. Сборки лежат в .minecraft\instances.</span></div>
+<div class="faq-item"><strong>Где хранятся мои данные?</strong><span>Настройки — локально на вашем компьютере. Токен входа в аккаунт хранится зашифрованным средствами Windows.</span></div>
+<div class="faq-item"><strong>Лаунчер бесплатный?</strong><span>Да, проект создаётся для удобства игроков.</span></div>
 </div></div>
 </div>
 
 <script>
 /* ===== НАСТРОЙКИ ===== */
-const API=((location.hostname==='127.0.0.1'||location.hostname==='localhost')?'':(window.MT_API||'')).replace(/\/+$/,'');   // см. config.js
-const DOWNLOAD_URL=window.MT_DOWNLOAD||'';
-const SRV=API||location.origin;
-if(location.protocol==='file:'&&!API)document.getElementById('fileWarn').classList.remove('hid');
-const $=id=>document.getElementById(id);
-const tabs=['download','lobby','account','about'];
-let lobbyTimer=null;
-function go(t){tabs.forEach(n=>$('s-'+n).classList.toggle('hid',n!==t));document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
- clearInterval(lobbyTimer);if(t==='lobby'){loadLobbies();lobbyTimer=setInterval(loadLobbies,8000)}if(t==='account')refresh();history.replaceState(null,'','#'+t)}
-document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>go(b.dataset.t));
-async function call(path,opt){let r;try{r=await fetch(API+path,opt)}catch(e){throw new Error(location.protocol==='file:'&&!API?'Сайт открыт как файл. Запусти ЗАПУСТИТЬ-САЙТ.bat и открой http://127.0.0.1:8080':'Сервер недоступен: '+SRV)}let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.errorMessage||j.error||('Ошибка '+r.status));return j}
+// ⚠️ ОБНОВЛЕНА ССЫЛКА НА НОВУЮ ВЕРСИЮ v1.1 ⚠️
+const DOWNLOAD_URL='https://github.com/GameGG959/installer/releases/download/v1.1/MultiTool-Setup.10.hta'; 
+const API='';  // адрес твоего сервера аккаунтов, например 'https://skins.example.com'
+
+function switchTab(t){['download','account','about'].forEach(n=>document.getElementById(n+'-section').classList.toggle('hidden',n!==t));
+ document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['download','account','about'][i]===t));if(t==='account')refresh()}
+function startDownload(e){e.preventDefault();const b=document.getElementById('downloadBtn'),l=document.getElementById('loadingText');particles(e.clientX,e.clientY);
+ b.innerText='Загрузка...';l.style.display='block';const a=document.createElement('a');a.href=DOWNLOAD_URL;a.download='';document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>{b.innerText='Скачать';l.style.display='none'},2000)}
 function particles(x,y){const c=['#00ff66','#00cc52','#fff'];for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';document.body.appendChild(p);const s=Math.random()*8+4;
- Object.assign(p.style,{width:s+'px',height:s+'px',background:c[i%3],left:x+'px',top:y+'px'});const a=Math.random()*6.28,v=Math.random()*150+50;
+ Object.assign(p.style,{width:s+'px',height:s+'px',background:c[Math.floor(Math.random()*3)],left:x+'px',top:y+'px'});const a=Math.random()*6.28,v=Math.random()*150+50;
  p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v}px) scale(0)`,opacity:0}],{duration:600+Math.random()*400,easing:'cubic-bezier(0,.9,.57,1)'}).onfinish=()=>p.remove()}}
-document.addEventListener('mousemove',e=>{$('bgc').style.transform=`translate(${(innerWidth/2-e.pageX)/30}px,${(innerHeight/2-e.pageY)/30}px)`});
-
-/* ===== СКАЧАТЬ + СТАТУС ===== */
-let dlUrl=DOWNLOAD_URL;
-$('dlBtn').onclick=e=>{e.preventDefault();particles(e.clientX,e.clientY);if(!dlUrl){$('dlBtn').textContent='Файл пока не загружен на сервер';return}const a=document.createElement('a');a.href=dlUrl;a.download='';document.body.appendChild(a);a.click();a.remove()};
-(async()=>{try{const i=await call('/api/info');$('stU').textContent=i.users;$('stL').textContent=i.lobbies;$('stP').textContent=i.playing;$('sdot').classList.add('ok');$('srvText').textContent='Сервер аккаунтов: онлайн';
- if(!dlUrl&&i.downloads.length)dlUrl=API+'/download/'+(i.downloads.find(f=>/setup/i.test(f))||i.downloads[0])}catch(e){$('srvText').textContent='Сервер аккаунтов: недоступен'}})();
-
-/* ===== ЛОББИ ===== */
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
-async function loadLobbies(){const b=$('lobbies');try{const d=await call('/api/lobbies');
- if(!d.list.length){b.innerHTML='<div class="empty">Сейчас нет открытых лобби. Создай своё в лаунчере!</div>';return}
- b.innerHTML=d.list.map(l=>`<div class="lb"><span class="code" title="Нажми, чтобы скопировать" data-c="${esc(l.id)}">${esc(l.id)}</span><div class="inf"><b>${esc(l.name)}${l.locked?' 🔒':''}</b><small>хост ${esc(l.owner)} · ${esc(l.version||'?')}${l.names.length?' · '+esc(l.names.join(', ')):''}</small></div><span class="pill ${l.auth==='site'?'g':''}">${l.auth==='site'?'скины':'по нику'}</span><span class="pill">${l.players}/${l.max}</span><a class="jn" href="multitool://join/${esc(l.id)}">Войти</a></div>`).join('');
- b.querySelectorAll('.code').forEach(c=>c.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(c.dataset.c);c.textContent='скопировано';setTimeout(()=>c.textContent=c.dataset.c,900)})}
- catch(e){b.innerHTML='<div class="empty">Сервер недоступен</div>'}}
+const bg=document.getElementById('parallax-bg');document.addEventListener('mousemove',e=>{bg.style.transform=`translate(${(innerWidth/2-e.pageX)/30}px,${(innerHeight/2-e.pageY)/30}px)`});
 
 /* ===== АККАУНТ ===== */
+const $=id=>document.getElementById(id);
 const sv=()=>{try{return JSON.parse(localStorage.getItem('mt_acc')||'null')}catch(e){return null}};
 function msg(t,c){const m=$('accMsg');m.textContent=t;m.className='msg '+(c||'')}
+async function call(path,opt){if(!API)throw new Error('Не задан адрес сервера аккаунтов (переменная API в коде сайта)');
+ const r=await fetch(API+path,opt);let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.errorMessage||j.error||('Ошибка '+r.status));return j}
 async function doRegister(){try{msg('Регистрирую…');await call('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('lu').value,password:$('lp').value})});await doLogin()}catch(e){msg(e.message,'err')}}
-async function doLogin(){try{msg('Вхожу…');const j=await call('/yggdrasil/authserver/authenticate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('lu').value,password:$('lp').value,clientToken:crypto.randomUUID().replace(/-/g,''),agent:{name:'Minecraft',version:1}})});
+async function doLogin(){try{msg('Вхожу…');const j=await call('/authserver/authenticate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('lu').value,password:$('lp').value,clientToken:crypto.randomUUID().replace(/-/g,''),agent:{name:'Minecraft',version:1}})});
  localStorage.setItem('mt_acc',JSON.stringify({token:j.accessToken,name:j.selectedProfile.name}));$('lp').value='';msg('Готово','ok');refresh()}catch(e){msg(e.message,'err')}}
-$('bLogin').onclick=doLogin;$('bReg').onclick=doRegister;$('bOut').onclick=()=>{localStorage.removeItem('mt_acc');refresh();msg('')};
-let pending=null;
-function setAv(name){const u=API+'/avatar/'+encodeURIComponent(name)+'?t='+Date.now();$('avImg').src=u;$('chipImg').src=u}
-async function refresh(){const a=sv();$('loginBox').classList.toggle('hid',!!a);$('userBox').classList.toggle('hid',!a);$('chip').classList.toggle('hid',!a);if(!a)return;$('uname').textContent=a.name;$('chipName').textContent=a.name;$('apiUrl').textContent=SRV;$('apiUser').textContent=a.name;setAv(a.name);
- try{const me=await call('/api/me',{headers:{Authorization:'Bearer '+a.token}});$('skinModel').value=me.model||'classic';showSkin(me.skin,me.model==='slim');
-  $('myLobby').innerHTML=me.lobby?'Моё лобби: код <code>'+me.lobby+'</code> — оно сейчас в списке «Лобби».':'Моё лобби: нет активного. <a class="lnk" href="multitool://host">Создать в лаунчере</a> — сервер запустится на твоём ПК.'}
- catch(e){if(/вход|401/i.test(e.message)){localStorage.removeItem('mt_acc');refresh()}else showSkin(null,false)}}
-$('chip').onclick=()=>go('account');
-function pTab(p){['skin','prof','pw'].forEach(x=>$('p-'+x).classList.toggle('hid',x!==p));document.querySelectorAll('.pfb[data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p===p))}
-document.querySelectorAll('.pfb[data-p]').forEach(b=>b.onclick=()=>pTab(b.dataset.p));
-$('avFile').onchange=async e=>{const f=e.target.files[0],a=sv();e.target.value='';if(!f||!a)return;if(f.size>262144){msg('Картинка больше 256 КБ','err');return}
- try{msg('Загружаю…');await call('/api/avatar',{method:'PUT',headers:{Authorization:'Bearer '+a.token},body:f});setAv(a.name);msg('Аватарка обновлена','ok')}catch(x){msg(x.message,'err')}};
-$('avDel').onclick=async()=>{const a=sv();if(!a)return;try{await call('/api/avatar',{method:'DELETE',headers:{Authorization:'Bearer '+a.token}});setAv(a.name);msg('Аватарка убрана','ok')}catch(x){msg(x.message,'err')}};
-const PRES=[['🐱',200],['🦊',22],['🐼',160],['🐸',120],['🐙',320],['🦄',285],['🌙',235],['🔥',8],['⚡',48],['🍀',140],['🎮',260],['🚀',190]];
-(function(){const g=$('presets');PRES.forEach(([e,h])=>{const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),gr=x.createLinearGradient(0,0,256,256);gr.addColorStop(0,`hsl(${h},80%,58%)`);gr.addColorStop(1,`hsl(${(h+50)%360},75%,32%)`);x.fillStyle=gr;x.fillRect(0,0,256,256);
-const rg=x.createRadialGradient(80,60,10,128,128,220);rg.addColorStop(0,'rgba(255,255,255,.35)');rg.addColorStop(.6,'rgba(255,255,255,0)');x.fillStyle=rg;x.fillRect(0,0,256,256);
-x.font='140px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,128,138);
-c.onclick=()=>{const a=sv();if(!a)return;c.toBlob(async b=>{try{msg('Ставлю аватарку…');await call('/api/avatar',{method:'PUT',headers:{Authorization:'Bearer '+a.token},body:b});setAv(a.name);msg('Аватарка обновлена','ok')}catch(er){msg(er.message,'err')}},'image/png')};g.append(c)})})();
-$('bPw').onclick=async()=>{const a=sv();if(!a)return;try{await call('/api/password',{method:'POST',headers:{Authorization:'Bearer '+a.token,'Content-Type':'application/json'},body:JSON.stringify({old:$('pwOld').value,new:$('pwNew').value})});$('pwOld').value=$('pwNew').value='';msg('Пароль изменён. В лаунчере войди заново с новым паролем','ok')}catch(x){msg(x.message,'err')}};
-$('skinFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f),i=new Image();i.onload=()=>{if(!(i.width===64&&(i.height===64||i.height===32))){msg('Нужен PNG 64×64 или 64×32','err');return}
- pending=f;$('bApply').disabled=false;showSkin(u,$('skinModel').value==='slim');msg('Так скин будет выглядеть. Нажми «Применить скин».')};i.src=u;e.target.value=''};
-$('skinModel').onchange=()=>{if(skinImg)buildModel(skinImg,$('skinModel').value==='slim')};
-$('bApply').onclick=async()=>{const a=sv();if(!pending||!a)return;try{msg('Загружаю…');await call('/api/skin?model='+$('skinModel').value,{method:'PUT',headers:{Authorization:'Bearer '+a.token},body:pending});pending=null;$('bApply').disabled=true;msg('Скин сохранён','ok');refresh()}catch(e){msg(e.message,'err')}};
-$('bDel').onclick=async()=>{const a=sv();if(!a)return;try{await call('/api/skin',{method:'DELETE',headers:{Authorization:'Bearer '+a.token}});pending=null;msg('Скин убран','ok');refresh()}catch(e){msg(e.message,'err')}};
-
-/* ===== 3D-МОДЕЛЬ СКИНА (чистый CSS 3D) ===== */
-const SC=7;let skinImg=null,rotY=-30,rotX=-10,spin=true;
-function placeholder(){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const f=(x,y,w,h,k)=>{g.fillStyle=k;g.fillRect(x,y,w,h)};
- f(0,0,32,16,'#c8946a');f(8,0,8,3,'#4a2f1a');f(0,8,32,3,'#4a2f1a');f(16,16,24,16,'#2f8f9d');f(40,16,16,16,'#c8946a');f(32,48,16,16,'#c8946a');f(0,16,16,16,'#3b3f8f');f(16,48,16,16,'#3b3f8f');f(8,8,2,2,'#fff');f(13,8,2,2,'#fff');return c}
-function showSkin(url,slim){if(!url){skinImg=placeholder();buildModel(skinImg,slim);return}const i=new Image();i.crossOrigin='anonymous';i.onload=()=>{skinImg=i;buildModel(i,slim)};i.onerror=()=>{skinImg=placeholder();buildModel(skinImg,slim)};i.src=url+(url.startsWith('blob:')?'':'?t='+Date.now())}
-function face(img,sx,sy,sw,sh,flip,w,h,tf){const c=document.createElement('canvas');c.width=sw;c.height=sh;c.className='face';c.style.width=w*SC+'px';c.style.height=h*SC+'px';c.style.left=-w*SC/2+'px';c.style.top=-h*SC/2+'px';c.style.transform=tf;
- const g=c.getContext('2d');g.imageSmoothingEnabled=false;if(flip){g.translate(sw,0);g.scale(-1,1)}g.drawImage(img,sx,sy,sw,sh,0,0,sw,sh);return c}
-function box(img,w,h,d,u,v,cx,cy,flip,grow){const p=document.createElement('div');p.className='part';p.style.transform=`translate3d(${cx*SC}px,${cy*SC}px,0)`;const W=w+grow,H=h+grow,D=d+grow,f=(sx,sy,sw,sh,fw,fh,tf,fl)=>p.appendChild(face(img,sx,sy,sw,sh,fl,fw,fh,tf));
- const L=flip?[u+d+w,u]:[u,u+d+w];// при зеркалировании боковые грани меняются местами
- f(u+d,v+d,w,h,W,H,`translateZ(${D*SC/2}px)`,flip);f(u+2*d+w,v+d,w,h,W,H,`rotateY(180deg) translateZ(${D*SC/2}px)`,flip);
- f(L[0],v+d,d,h,D,H,`rotateY(-90deg) translateZ(${W*SC/2}px)`,flip);f(L[1],v+d,d,h,D,H,`rotateY(90deg) translateZ(${W*SC/2}px)`,flip);
- f(u+d,v,w,d,W,D,`rotateX(90deg) translateZ(${H*SC/2}px)`,flip);f(u+d+w,v,w,d,W,D,`rotateX(-90deg) translateZ(${H*SC/2}px)`,flip);return p}
-function buildModel(img,slim){const rig=$('rig');rig.textContent='';const old=img.height===32,aw=slim?3:4,ax=slim?5.5:6;
- const add=(...a)=>rig.appendChild(box(img,...a));
- add(8,8,8,0,0,0,-12,false,0);add(8,12,4,16,16,0,-2,false,0);
- add(aw,12,4,40,16,-ax,-2,false,0);add(4,12,4,0,16,-2,10,false,0);
- if(old){add(aw,12,4,40,16,ax,-2,true,0);add(4,12,4,0,16,2,10,true,0)}else{add(aw,12,4,32,48,ax,-2,false,0);add(4,12,4,16,48,2,10,false,0)}
- add(8,8,8,32,0,0,-12,false,.8);
- if(!old){add(8,12,4,16,32,0,-2,false,.5);add(aw,12,4,40,32,-ax,-2,false,.5);add(aw,12,4,48,48,ax,-2,false,.5);add(4,12,4,0,32,-2,10,false,.5);add(4,12,4,0,48,2,10,false,.5)}
- draw()}
-function draw(){$('rig').style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`}
-(()=>{let drag=false,lx=0,ly=0;const st=$('stage');st.addEventListener('pointerdown',e=>{drag=true;spin=false;lx=e.clientX;ly=e.clientY;st.setPointerCapture(e.pointerId)});
- st.addEventListener('pointermove',e=>{if(!drag)return;rotY+=(e.clientX-lx)*.6;rotX=Math.max(-60,Math.min(40,rotX-(e.clientY-ly)*.4));lx=e.clientX;ly=e.clientY;draw()});
- st.addEventListener('pointerup',()=>{drag=false;setTimeout(()=>spin=true,2500)});
- setInterval(()=>{if(spin&&!$('s-account').classList.contains('hid')){rotY+=.7;draw()}},30)})();
-go(tabs.includes(location.hash.slice(1))?location.hash.slice(1):'download');
+function doLogout(){localStorage.removeItem('mt_acc');refresh();msg('')}
+async function refresh(){const a=sv();$('loginBox').classList.toggle('hidden',!!a);$('userBox').classList.toggle('hidden',!a);if(!a)return;$('uname').textContent=a.name;
+ try{const me=await call('/api/me',{headers:{Authorization:'Bearer '+a.token}});drawHead(me.skin)}catch(e){if(/вход|401/i.test(e.message)){localStorage.removeItem('mt_acc');refresh()}else drawHead(null)}}
+function drawHead(url){const c=$('head'),g=c.getContext('2d');g.clearRect(0,0,8,8);g.fillStyle='#3a3a3a';g.fillRect(0,0,8,8);if(!url)return;const i=new Image();i.crossOrigin='anonymous';i.onload=()=>{g.imageSmoothingEnabled=false;g.drawImage(i,8,8,8,8,0,0,8,8);g.drawImage(i,40,8,8,8,0,0,8,8)};i.src=url+'?t='+Date.now()}
+function uploadSkin(inp){const f=inp.files[0],a=sv();if(!f||!a)return;const u=URL.createObjectURL(f),i=new Image();
+ i.onload=async()=>{if(!(i.width===64&&(i.height===64||i.height===32))){msg('Нужен PNG 64×64 или 64×32','err');return}
+  try{msg('Загружаю…');await call('/api/skin?model='+$('skinModel').value,{method:'PUT',headers:{Authorization:'Bearer '+a.token},body:f});msg('Скин загружен','ok');refresh()}catch(e){msg(e.message,'err')}};i.src=u;inp.value=''}
+(async()=>{const s=$('srvText');if(!API){s.textContent='Сервер аккаунтов: не настроен';return}try{await fetch(API+'/');s.textContent='Сервер аккаунтов: онлайн'}catch(e){s.textContent='Сервер аккаунтов: недоступен'}})();
 </script>
 </body></html>
