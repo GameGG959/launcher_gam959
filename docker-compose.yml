@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - mt_data:/data                       # аккаунты, скины, облако — делай бэкап
+      - ./server/downloads:/app/server/downloads
+  caddy:                                    # сам получает HTTPS-сертификат
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    env_file: .env
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [app]
+volumes:
+  mt_data:
+  caddy_data:

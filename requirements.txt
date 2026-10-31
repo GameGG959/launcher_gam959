@@ -1,0 +1,3 @@
+flask
+cryptography
+gunicorn; sys_platform != "win32"

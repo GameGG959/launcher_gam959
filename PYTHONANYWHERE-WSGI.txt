@@ -1,0 +1,7 @@
+# Вставь ЭТО в WSGI configuration file на вкладке Web (PythonAnywhere), удалив всё остальное.
+# Если твой логин на PythonAnywhere НЕ gamegg959 — замени его в трёх местах.
+import os, sys
+sys.path.insert(0, '/home/gamegg959/MultiTool/site/server')
+os.environ['PUBLIC_URL'] = 'https://gamegg959.pythonanywhere.com'
+os.environ['BEHIND_PROXY'] = '1'
+from app import app as application
